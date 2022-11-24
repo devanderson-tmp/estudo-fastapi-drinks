@@ -15,7 +15,6 @@ class UserSchema(BaseModel):
     id: Optional[int] = None
     name: str
     email: EmailStr
-    password: str
 
     class Config:
         orm_mode = True
