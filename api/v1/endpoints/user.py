@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
@@ -11,7 +11,9 @@ router = APIRouter()
 
 
 @router.post("/create", response_model=UserSchema, status_code=status.HTTP_201_CREATED)
-async def create_user(user: UserCreateSchema, db: AsyncSession = Depends(get_session)):
+async def create_user(
+    user: UserCreateSchema, db: AsyncSession = Depends(get_session)
+) -> UserModel:
     async with db as session:
         query = select(UserModel).filter(UserModel.email == user.email)
         result = await session.execute(query)
