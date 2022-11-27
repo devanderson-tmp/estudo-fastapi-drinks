@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
-from core.deps import get_session
+from core.deps import get_current_user, get_session
 from core.security import create_password_hash
 from models.user_model import UserModel
-from schemas.user_schema import UserSchema, UserCreateSchema
+from schemas.user_schema import UserCreateSchema, UserSchema
 
 router = APIRouter()
 
@@ -30,3 +30,8 @@ async def create(
     db.add(new_user)
     await db.commit()
     return new_user
+
+
+@router.get("/me", response_model=UserSchema)
+async def show(current_user: UserModel = Depends(get_current_user)):
+    return current_user
