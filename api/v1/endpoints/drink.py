@@ -20,7 +20,7 @@ async def create(
     new_drink = DrinkModel(
         name=drink.name,
         ingredients=ingredients,
-        instructions=drink.instructions,
+        instruction=drink.instruction,
         user_id=current_user.id,
     )
     db.add(new_drink)
